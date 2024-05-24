@@ -6,10 +6,10 @@ const {currentTime} = useCurrentTime()
 
 </script>
 <template>
-  <header class="d-flex justify-content-between align-items-center py-3 border-bottom bg-custom-navbar">
+  <header class="d-flex justify-content-between align-items-center py-1 border-bottom bg-custom-navbar">
 
     <a class="navbar-brand ms-5">
-      <img src="@/assets/images/LOGO_CLINICA_BONNADONA_BLANCO.png" width="120">
+      <img src="@/assets/images/LOGO_CLINICA_BONNADONA_BLANCO.png" width="100">
     </a>
     <div>
       <h4 class="fw-bolder text-white">UBICACIÓN DEL PACIENTE</h4>
