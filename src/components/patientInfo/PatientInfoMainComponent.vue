@@ -1,6 +1,8 @@
 <script setup>
 import {surgeryStep} from "@/utils/const/surgeryStep.js";
 import {computed, onMounted, ref} from "vue";
+import SurgeryPreparationsService from "@/services/surgeryPreparations/SurgeryPreparations.service.js";
+import axios from "axios";
 
 const data = ref([]);
 
@@ -30,6 +32,22 @@ const outputs = computed(() => {
   return data.value.filter((item) => item.type === "OUTPUT");
 });
 
+const removeQuota = async (idQuota, typeQuota) => {
+
+  if (typeQuota !== 'TRASLADOS' && typeQuota !== 'SALIDAS') {
+    alert('No puede eliminar estas posiciones')
+    return false
+  }
+
+  const confirmValue = confirm('Desea remover esta posición?')
+
+  if (confirmValue) {
+    SurgeryPreparationsService.removeQuota(idQuota)
+        .then(() => alert('Paciente Removido'))
+        .catch(error => alert('Error al remover el Paciente: -->' + error))
+  }
+}
+
 onMounted(() => {
   evtSource;
 });
@@ -47,6 +65,7 @@ onMounted(() => {
         <div class="row" v-if="column.name === 'Vestier Mujeres y Hombres'">
           <div class="col-xl-2" v-for="(item, index) in vestierW"
                :key="item"
+               @click.prevent="removeQuota(item.id, 'VESTIERES')"
           >
             <div class="card border mb-1 p-1">
               <div class="d-flex justify-content-between align-items-center">
@@ -90,55 +109,11 @@ onMounted(() => {
           </div>
         </div>
 
-<!--        <div class="row" v-if="column.name === 'Vestier Hombres'">
-          <div class="col-xl-2" v-for="(item, index) in vestierM"
-               :key="item"
-          >
-            <div class="card mb-1 p-2 border">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex flex-row align-items-center">
-                  <div class="c-details">
-                    <h5 class="mb-0">
-                      {{ item.patient_document_number }}
-                    </h5>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center">
-                  <h5 class="mb-0">
-                          <span class="badge rounded-pill badge-aqua">
-                            <img width="7"
-                                 src="https://bonnadona-storage.s3.amazonaws.com/projects/cirugia/iconos/women+occupy.svg"/>
-                            En Vestier
-                          </span>
-                  </h5>
-                </div>
-              </div>
-
-              <div class="mt-3">
-                <ul class="list-unstyled">
-                  <li>
-                    <p class="fw-bold mb-0">
-                      VESTIER H #:
-                      <span>
-                              {{ item.number_room }}
-                            </span>
-                    </p>
-                  </li>
-                  <li>
-                    <p class="fw-bold">
-                      Cirugía:
-                      <span> POR DEFINIR </span>
-                    </p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>-->
-
         <div class="row" v-if="column.name === 'Quirófanos'">
           <div class="col-xl-2" v-for="(item, index) in operatingRooms"
-               :key="item">
+               :key="item"
+               @click.prevent="removeQuota(item.id, 'QUIROFANO')"
+          >
             <div class="card border mb-1 p-2">
               <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex flex-row align-items-center">
@@ -184,6 +159,7 @@ onMounted(() => {
         <div class="row" v-if="column.name === 'Recuperación'">
           <div class="col-xl-2" v-for="(item, index) in recuperations"
                :key="item"
+               @click.prevent="removeQuota(item.id, 'RECUPERACION')"
           >
             <div class="card border mb-1 p-2">
               <div class="d-flex justify-content-between align-items-center">
@@ -230,6 +206,7 @@ onMounted(() => {
         <div class="row" v-if="column.name === 'Traslados a Piso'">
           <div class="col-xl-2" v-for="(item, index) in trasnfers"
                :key="item"
+               @click.prevent="removeQuota(item.id, 'TRASLADOS')"
           >
             <div class="card border mb-1 p-2">
               <div class="d-flex justify-content-between align-items-center">
@@ -276,6 +253,7 @@ onMounted(() => {
         <div class="row" v-if="column.name === 'Salidas'">
           <div class="col-xl-2" v-for="(item, index) in outputs"
                :key="item"
+               @click.prevent="removeQuota(item.id, 'SALIDAS')"
           >
             <div class="card border mb-1 p-2">
               <div class="d-flex justify-content-between align-items-center">

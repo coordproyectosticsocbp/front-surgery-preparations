@@ -2,8 +2,7 @@ import axios from "axios";
 
 export const apiClient = axios.create({
     baseURL: import.meta.env.VITE_NODE_ENV === 'development' ? import.meta.env.VITE_BACKEND_SERVICE : import.meta.env.VITE_BACKEND_SERVICE_P,
-    withCredentials: true,
-    withXSRFToken: false,
+    withCredentials: false,
 })
 
 apiClient.interceptors.response.use(
