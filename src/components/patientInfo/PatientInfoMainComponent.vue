@@ -6,7 +6,7 @@ import axios from "axios";
 
 const data = ref([]);
 
-const evtSource = new EventSource("http://localhost:3001/preparations/all");
+const evtSource = new EventSource("https://back-surgery-preparations-production.up.railway.app/preparations/all/");
 evtSource.onmessage = (event) => {
   if (event.data) {
     data.value = JSON.parse(event.data);
