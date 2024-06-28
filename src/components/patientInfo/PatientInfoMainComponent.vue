@@ -2,11 +2,11 @@
 import {surgeryStep} from "@/utils/const/surgeryStep.js";
 import {computed, onMounted, ref} from "vue";
 import SurgeryPreparationsService from "@/services/surgeryPreparations/SurgeryPreparations.service.js";
-import axios from "axios";
 
 const data = ref([]);
 
 const evtSource = new EventSource("https://back-surgery-preparations-production.up.railway.app/preparations/all/");
+//const evtSource = new EventSource("http://localhost:3001/preparations/all");
 evtSource.onmessage = (event) => {
   if (event.data) {
     data.value = JSON.parse(event.data);
@@ -14,22 +14,22 @@ evtSource.onmessage = (event) => {
 };
 
 const vestierW = computed(() => {
-  return data.value.filter((item) => item.type === "WOMENS WARDROBE" || item.type === "MENS LOCKER ROOM");
+  return data.value.length ? data.value.filter((item) => item.type === "WOMENS WARDROBE" || item.type === "MENS LOCKER ROOM") : [];
 });
 /*const vestierM = computed(() => {
   return data.value.filter((item) => item.type === "MENS LOCKER ROOM");
 });*/
 const operatingRooms = computed(() => {
-  return data.value.filter((item) => item.type === "OPERTING ROOMS");
+  return data.value.length ? data.value.filter((item) => item.type === "OPERTING ROOMS") : [];
 });
 const recuperations = computed(() => {
-  return data.value.filter((item) => item.type === "RECUPERATION ROOMS");
+  return data.value.length ? data.value.filter((item) => item.type === "RECUPERATION ROOMS") : [];
 });
 const trasnfers = computed(() => {
-  return data.value.filter((item) => item.type === "TRANSFER TO FLOOR");
+  return data.value.length ? data.value.filter((item) => item.type === "TRANSFER TO FLOOR") : [];
 });
 const outputs = computed(() => {
-  return data.value.filter((item) => item.type === "OUTPUT");
+  return data.value.length ? data.value.filter((item) => item.type === "OUTPUT") : [];
 });
 
 const removeQuota = async (idQuota, typeQuota) => {
@@ -63,7 +63,7 @@ onMounted(() => {
         </h5>
 
         <div class="row" v-if="column.name === 'Vestier Mujeres y Hombres'">
-          <div class="col-xl-2" v-for="(item, index) in vestierW"
+          <div class="col-xl-2" v-for="item in vestierW"
                :key="item"
                @click.prevent="removeQuota(item.id, 'VESTIERES')"
           >
@@ -98,9 +98,9 @@ onMounted(() => {
                     </p>
                   </li>
                   <li>
-                    <p class="fw-bold">
+                    <p class="fw-bold procedure-text">
                       Cirugía:
-                      <span> POR DEFINIR </span>
+                      <span> {{ item.procedure }} </span>
                     </p>
                   </li>
                 </ul>
@@ -110,7 +110,7 @@ onMounted(() => {
         </div>
 
         <div class="row" v-if="column.name === 'Quirófanos'">
-          <div class="col-xl-2" v-for="(item, index) in operatingRooms"
+          <div class="col-xl-2" v-for="item in operatingRooms"
                :key="item"
                @click.prevent="removeQuota(item.id, 'QUIROFANO')"
           >
@@ -145,9 +145,9 @@ onMounted(() => {
                     </p>
                   </li>
                   <li>
-                    <p class="fw-bold">
+                    <p class="fw-bold procedure-text">
                       Cirugía:
-                      <span> POR DEFINIR </span>
+                      <span> {{ item.procedure }} </span>
                     </p>
                   </li>
                 </ul>
@@ -157,7 +157,7 @@ onMounted(() => {
         </div>
 
         <div class="row" v-if="column.name === 'Recuperación'">
-          <div class="col-xl-2" v-for="(item, index) in recuperations"
+          <div class="col-xl-2" v-for="item in recuperations"
                :key="item"
                @click.prevent="removeQuota(item.id, 'RECUPERACION')"
           >
@@ -192,9 +192,9 @@ onMounted(() => {
                     </p>
                   </li>
                   <li>
-                    <p class="fw-bold">
+                    <p class="fw-bold procedure-text">
                       Cirugía:
-                      <span> POR DEFINIR </span>
+                      <span> {{ item.procedure }} </span>
                     </p>
                   </li>
                 </ul>
@@ -204,7 +204,7 @@ onMounted(() => {
         </div>
 
         <div class="row" v-if="column.name === 'Traslados a Piso'">
-          <div class="col-xl-2" v-for="(item, index) in trasnfers"
+          <div class="col-xl-2" v-for="item in trasnfers"
                :key="item"
                @click.prevent="removeQuota(item.id, 'TRASLADOS')"
           >
@@ -234,14 +234,14 @@ onMounted(() => {
                     <p class="fw-bold mb-0">
                       TRASLADO #:
                       <span>
-                                      {{ item.number_room }}
-                                    </span>
+                        {{ item.number_room }}
+                      </span>
                     </p>
                   </li>
                   <li>
-                    <p class="fw-bold">
+                    <p class="fw-bold procedure-text">
                       Cirugía:
-                      <span> POR DEFINIR </span>
+                      <span> {{ item.procedure }} </span>
                     </p>
                   </li>
                 </ul>
@@ -251,7 +251,7 @@ onMounted(() => {
         </div>
 
         <div class="row" v-if="column.name === 'Salidas'">
-          <div class="col-xl-2" v-for="(item, index) in outputs"
+          <div class="col-xl-2" v-for="item in outputs"
                :key="item"
                @click.prevent="removeQuota(item.id, 'SALIDAS')"
           >
@@ -286,9 +286,9 @@ onMounted(() => {
                     </p>
                   </li>
                   <li>
-                    <p class="fw-bold">
+                    <p class="fw-bold procedure-text">
                       Cirugía:
-                      <span> POR DEFINIR </span>
+                      <span> {{ item.procedure }} </span>
                     </p>
                   </li>
                 </ul>
@@ -333,5 +333,12 @@ onMounted(() => {
 
 .badge-purple {
   background: rgb(166, 124, 184);
+}
+.procedure-text {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /*white-space: nowrap;*/
 }
 </style>
