@@ -1,17 +1,32 @@
 export const surgeryStep = [
     {
-        name: 'Vestier Mujeres y Hombres',
+        name: 'VESTIER MUJERES',
+        value: 'WOMENS WARDROBE',
+        icon: 'women+occupy.svg'
     },
     {
-        name: 'Quirófanos',
+        name: 'VESTIER HOMBRES',
+        value: 'MENS LOCKER ROOM',
+        icon: 'women+occupy.svg'
     },
     {
-        name: 'Recuperación',
+        name: 'QUIRÓFANOS',
+        value: 'OPERTING ROOMS',
+        icon: 'photo+occupy.svg'
     },
     {
-        name: 'Traslados a Piso',
+        name: 'SALA DE RECUPERACIÓN',
+        value: 'RECUPERATION ROOMS',
+        icon: 'stretcher+occupy.svg'
     },
     {
-        name: 'Salidas',
+        name: 'TRASLADOS A PISO',
+        value: 'TRANSFER TO FLOOR',
+        icon: 'bed+occupy.svg'
+    },
+    {
+        name: 'SALIDAS',
+        value: 'OUTPUT',
+        icon: 'wheelchair+occupy.svg'
     },
 ]

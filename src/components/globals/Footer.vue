@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <footer class="footer mt-auto py-3 bg-body-tertiary">
+  <footer class="footer mt-auto py-3 bg-body-tertiary d-none d-xl-block">
     <div class="container-fluid">
       <div class="row">
         <div class="col">
@@ -18,7 +18,7 @@
           </div>
 
           <div class="qr-img-box">
-            <img title="Código QR" alt="qrCode" src="@/assets/images/QR_SURGERY_AIRPORT.png">
+            <img title="Código QR" alt="qrCode" src="../../assets/images/QR_SURGERY_AIRPORT.png">
           </div>
 
         </div>
@@ -41,6 +41,6 @@
   right: 0;
 }
 .qr-img-box img {
-  width: 250px;
+  width: 200px;
 }
 </style>

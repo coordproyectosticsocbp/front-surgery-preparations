@@ -1,7 +1,7 @@
 <script setup>
+
+import {onMounted, ref} from "vue";
 import {surgeryStep} from "@/utils/const/surgeryStep.js";
-import {onMounted, onUnmounted, ref} from "vue";
-import SurgeryPreparationsService from "@/services/surgeryPreparations/SurgeryPreparations.service.js";
 
 const data = ref([]);
 
@@ -17,28 +17,8 @@ const filterData = (filterValue) => {
   return data.value.length ? data.value.filter(item => item.type === filterValue) : []
 }
 
-const removeQuota = async (idQuota, typeQuota) => {
-
-  if (typeQuota !== 'TRASLADOS' && typeQuota !== 'SALIDAS') {
-    alert('No puede eliminar estas posiciones')
-    return false
-  }
-
-  const confirmValue = confirm('Desea remover esta posición?')
-
-  if (confirmValue) {
-    SurgeryPreparationsService.removeQuota(idQuota)
-        .then(() => alert('Paciente Removido'))
-        .catch(error => alert('Error al remover el Paciente: -->' + error))
-  }
-}
-
 onMounted(() => {
-  evtSource
-});
-
-onUnmounted(() => {
-  localStorage.removeItem('authenticated')
+  localStorage.setItem('authenticated', 'isGuest')
 })
 
 </script>
@@ -54,7 +34,7 @@ onUnmounted(() => {
 
         <div class="row">
           <div class="col-xl-2" v-for="item in filterData(column.value)" :key="item">
-            <div class="card border mb-1 p-1" @click.prevent="removeQuota(item.id, column.name)">
+            <div class="card border mb-1 p-1">
               <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex flex-row align-items-center">
                   <div class="c-details">
@@ -74,7 +54,7 @@ onUnmounted(() => {
                     <img width="7"
                          :src="`https://bonnadona-storage.s3.amazonaws.com/projects/cirugia/iconos/${column.icon}`"/>
                     {{
-                      item.type === 'WOMENS WARDROBE' || item.type === 'MENS LOCKER ROOM' ? 'En Vestier'
+                        item.type === 'WOMENS WARDROBE' || item.type === 'MENS LOCKER ROOM' ? 'En Vestier'
                           : item.type === 'OPERTING ROOMS' ? 'Quirófano'
                               : item.type === 'RECUPERATION ROOMS' ? 'Recuperación'
                                   : item.type === 'TRANSFER TO FLOOR' ? 'Traslado'
